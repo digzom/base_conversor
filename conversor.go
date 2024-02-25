@@ -7,6 +7,11 @@ import (
 )
 
 func main() {
+	if len(os.Args) < 2 {
+		fmt.Println("ERROR: You should provide an argument")
+		return
+	}
+
 	binaryInput := os.Args[1]
 	var binaryParts []string
 
