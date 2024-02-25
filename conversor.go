@@ -2,15 +2,22 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"os"
 	"strings"
 )
 
 func main() {
 	binaryInput := os.Args[1]
+	var binaryParts []string
 
-	binaryParts := strings.Split(binaryInput, ",")
+	containsDot := strings.Contains(binaryInput, ".")
+
+	if containsDot == true {
+		binaryParts = strings.Split(binaryInput, ".")
+	} else {
+		binaryParts = strings.Split(binaryInput, ",")
+	}
+
 	afterComma := binaryParts[0]
 
 	var decimalAfterCommaList []int
@@ -18,31 +25,39 @@ func main() {
 	var decimalIntegerPart int
 	var decimalFloatPart int
 
-	for index := 0; index < len(afterComma); index++ {
-		integer := int(afterComma[index] - '0')
-		potency := float64(len(afterComma) - 1 - index)
-		decimal_based_integer := integer * int(math.Pow(2, potency))
-		decimalAfterCommaList = append(decimalAfterCommaList, decimal_based_integer)
-	}
+	decimalAfterCommaList = binaryToDecimalList(afterComma)
 
-	for index := 0; index < len(decimalAfterCommaList); index++ {
-		decimalIntegerPart += decimalAfterCommaList[index]
-	}
+	decimalIntegerPart = sum_list_elements(decimalAfterCommaList)
 
 	if len(binaryParts) > 1 {
 		beforeComma := binaryParts[1]
 
-		for index := 0; index < len(beforeComma); index++ {
-			integer := int(beforeComma[index] - '0')
-			potency := float64(len(beforeComma) - 1 - index)
-			decimalBeforeComma := integer * int(math.Pow(2, potency))
-			decimalBeforeCommaList = append(decimalBeforeCommaList, decimalBeforeComma)
-		}
+		decimalBeforeCommaList = binaryToDecimalList(beforeComma)
 
-		for index := 0; index < len(decimalBeforeCommaList); index++ {
-			decimalFloatPart += decimalBeforeCommaList[index]
-		}
+		decimalFloatPart = sum_list_elements(decimalBeforeCommaList)
 	}
 
 	fmt.Println(float64(decimalIntegerPart) + (float64(decimalFloatPart) / 10))
+}
+
+func binaryToDecimalList(binary string) []int {
+	var decimalValues []int
+
+	for index := 0; index < len(binary); index++ {
+		digit := int(binary[index] - '0')
+		decimalValue := digit << (len(binary) - 1 - index)
+		decimalValues = append(decimalValues, decimalValue)
+	}
+
+	return decimalValues
+}
+
+func sum_list_elements(array []int) int {
+	var decimalFloatPart int
+
+	for index := 0; index < len(array); index++ {
+		decimalFloatPart += array[index]
+	}
+
+	return decimalFloatPart
 }
