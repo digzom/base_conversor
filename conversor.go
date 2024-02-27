@@ -24,42 +24,37 @@ func main() {
 		binaryParts = strings.Split(binaryInput, ",")
 	}
 
-	afterComma := binaryParts[0]
+	beforeComma := binaryParts[0]
 
-	var decimalAfterCommaList []int
-	var decimalBeforeCommaList []int
-	var decimalIntegerPart int
-	var decimalFloatPart int
+	var decimalBeforeCommaList []float64
+	var decimalAfterCommaList []float64
+	var decimalIntegerPart float64
+	var decimalFloatPart float64
 
-	decimalAfterCommaList = binaryToDecimalList(afterComma)
+	decimalBeforeCommaList = binaryToDecimalList(beforeComma)
 
-	decimalIntegerPart = sum_list_elements(decimalAfterCommaList)
+	decimalIntegerPart = sum_list_elements(decimalBeforeCommaList)
 
 	if len(binaryParts) > 1 {
-		beforeComma := binaryParts[1]
+		afterComma := binaryParts[1]
 
-		decimalBeforeCommaList = beforeCommaBinaryToDecimalList(beforeComma)
+		decimalAfterCommaList = afterCommaBinaryToDecimalList(afterComma)
 
-		decimalFloatPart = sum_list_elements(decimalBeforeCommaList)
+		decimalFloatPart = sum_list_elements(decimalAfterCommaList)
 	}
 
-	fmt.Println(float64(decimalIntegerPart) + (float64(decimalFloatPart) / 10))
+	fmt.Println(float64(decimalIntegerPart) + (float64(decimalFloatPart)))
 }
 
-func beforeCommaBinaryToDecimalList(binary string) []int {
-	var decimalValues []int
-	var decimalValue int
+func afterCommaBinaryToDecimalList(binary string) []float64 {
+	var decimalValues []float64
+	var decimalValue float64
 
 	for index := 0; index < len(binary); index++ {
-		digit := int(binary[index] - '0')
+		digit := float64(binary[index] - '0')
 		exponentiation := float64(index+1) * -1
 
-		fmt.Println(digit)
-		fmt.Println(exponentiation)
-
-		decimalValue = digit * int(math.Pow(2, exponentiation))
-
-		fmt.Println(decimalValue)
+		decimalValue = digit * math.Pow(2, exponentiation)
 
 		decimalValues = append(decimalValues, decimalValue)
 	}
@@ -67,20 +62,20 @@ func beforeCommaBinaryToDecimalList(binary string) []int {
 	return decimalValues
 }
 
-func binaryToDecimalList(binary string) []int {
-	var decimalValues []int
+func binaryToDecimalList(binary string) []float64 {
+	var decimalValues []float64
 
 	for index := 0; index < len(binary); index++ {
-		digit := int(binary[index] - '0')
-		decimalValue := digit << (len(binary) - 1 - index)
+		digit := float64(binary[index] - '0')
+		decimalValue := digit * math.Pow(2, float64(len(binary) - 1 - index))
 		decimalValues = append(decimalValues, decimalValue)
 	}
 
 	return decimalValues
 }
 
-func sum_list_elements(array []int) int {
-	var decimalFloatPart int
+func sum_list_elements(array []float64) float64 {
+	var decimalFloatPart float64
 
 	for index := 0; index < len(array); index++ {
 		decimalFloatPart += array[index]
