@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strings"
 )
@@ -37,12 +38,33 @@ func main() {
 	if len(binaryParts) > 1 {
 		beforeComma := binaryParts[1]
 
-		decimalBeforeCommaList = binaryToDecimalList(beforeComma)
+		decimalBeforeCommaList = beforeCommaBinaryToDecimalList(beforeComma)
 
 		decimalFloatPart = sum_list_elements(decimalBeforeCommaList)
 	}
 
 	fmt.Println(float64(decimalIntegerPart) + (float64(decimalFloatPart) / 10))
+}
+
+func beforeCommaBinaryToDecimalList(binary string) []int {
+	var decimalValues []int
+	var decimalValue int
+
+	for index := 0; index < len(binary); index++ {
+		digit := int(binary[index] - '0')
+		exponentiation := float64(index+1) * -1
+
+		fmt.Println(digit)
+		fmt.Println(exponentiation)
+
+		decimalValue = digit * int(math.Pow(2, exponentiation))
+
+		fmt.Println(decimalValue)
+
+		decimalValues = append(decimalValues, decimalValue)
+	}
+
+	return decimalValues
 }
 
 func binaryToDecimalList(binary string) []int {
