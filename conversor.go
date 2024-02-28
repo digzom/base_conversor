@@ -56,6 +56,7 @@ func afterCommaBinaryToDecimalList(binary string) []float64 {
 
 		decimalValue = digit * math.Pow(2, exponentiation)
 
+
 		decimalValues = append(decimalValues, decimalValue)
 	}
 
